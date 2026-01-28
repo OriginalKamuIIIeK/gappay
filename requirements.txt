@@ -1,3 +1,3 @@
-aiogram==3.14.1
+aiogram==3.14.0
 pillow==10.3.0
 python-dotenv==1.0.0
