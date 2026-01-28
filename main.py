@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 
 # === КОНФИГУРАЦИЯ ===
 # Замените эти значения на свои!
-BOT_TOKEN = "ВАШ_ТОКЕН_ОТ_BOTFATHER"  # ⚠️ ЗАМЕНИТЕ ЭТО
-ADMIN_IDS = [123456789]  # ⚠️ Ваш Telegram ID (узнать через @userinfobot)
+BOT_TOKEN = "8513635055:AAFdJiqUUQ0W0vLhy1vMuJKqdqLSrmtouPc"  # ⚠️ ЗАМЕНИТЕ ЭТО
+ADMIN_IDS = [7656583864]  # ⚠️ Ваш Telegram ID (узнать через @userinfobot)
 GROUP_CHAT_ID = -1001234567890  # ID группы (если есть)
 
 # Создаем папки
