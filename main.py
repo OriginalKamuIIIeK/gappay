@@ -6,7 +6,7 @@ from datetime import datetime
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.fsm.context import FSMContext
+from aiogram.fsm.context import FSMContextMarkdown
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton,
@@ -125,7 +125,7 @@ async def cmd_start(message: types.Message):
         "/my_tickets - Мои покупки\n"
         "/support - Поддержка\n\n"
         "⚡️ Выбирайте билет и присоединяйтесь к игре!",
-        parse_mode="Markdown"
+        parse_mode="None"
     )
 
 @dp.message(Command("tickets"))
@@ -159,7 +159,7 @@ async def cmd_tickets(message: types.Message):
         "4. 🎫 VIP - 5000₽ (безлимит)\n\n"
         "Нажмите на кнопку с нужным билетом:",
         reply_markup=keyboard,
-        parse_mode="Markdown"
+        parse_mode="None"
     )
 
 @dp.callback_query(F.data.startswith("ticket_"))
@@ -197,7 +197,7 @@ async def process_ticket_selection(callback: types.CallbackQuery, state: FSMCont
         f"2. Сделайте скриншот чека\n"
         f"3. Нажмите кнопку '✅ Я оплатил'\n"
         f"4. Отправьте скриншот чека",
-        parse_mode="Markdown"
+        parse_mode="None"
     )
     
     keyboard = ReplyKeyboardMarkup(
@@ -223,7 +223,7 @@ async def process_payment_button(message: types.Message, state: FSMContext):
         "• Должны быть видны сумма и реквизиты\n"
         "• Формат: JPG или PNG",
         reply_markup=ReplyKeyboardRemove(),
-        parse_mode="Markdown"
+        parse_mode="None"
     )
 
 @dp.message(PaymentState.waiting_screenshot, F.photo)
@@ -287,7 +287,7 @@ async def process_screenshot(message: types.Message, state: FSMContext):
                     await bot.send_message(
                         admin_id,
                         admin_message,
-                        parse_mode="Markdown"
+                        parse_mode="None"
                     )
                     
                     # Отправляем скриншот
@@ -309,7 +309,7 @@ async def process_screenshot(message: types.Message, state: FSMContext):
         "⏳ Ожидайте проверки администратора.\n"
         "Обычно проверка занимает 5-15 минут.\n\n"
         "📬 Вы получите уведомление как только оплата будет подтверждена.",
-        parse_mode="Markdown"
+        parse_mode="None"
     )
     
     await state.clear()
@@ -349,7 +349,7 @@ async def cmd_admin(message: types.Message):
         text += f"✅ /confirm_{trans_id}  |  ❌ /reject_{trans_id}\n"
         text += "─" * 30 + "\n"
     
-    await message.answer(text, parse_mode="Markdown")
+    await message.answer(text, parse_mode="None")
 
 @dp.message(F.text.regexp(r'^/confirm_\d+$'))
 async def confirm_payment(message: types.Message):
@@ -401,7 +401,7 @@ async def confirm_payment(message: types.Message):
             await bot.send_message(
                 user_telegram_id,
                 success_message,
-                parse_mode="Markdown"
+                parse_mode="None"
             )
             
             await message.answer(f"✅ Платеж #{transaction_id} подтвержден")
@@ -469,7 +469,7 @@ async def reject_payment(message: types.Message):
                 f"🔄 Пожалуйста, оплатите снова и отправьте четкий скриншот чека."
             )
             
-            await bot.send_message(user_telegram_id, reject_message, parse_mode="Markdown")
+            await bot.send_message(user_telegram_id, reject_message, parse_mode="None")
             await message.answer(f"❌ Платеж #{transaction_id} отклонен")
         else:
             await message.answer("❌ Транзакция не найдена")
@@ -493,7 +493,7 @@ async def cmd_support(message: types.Message):
     for admin_id in ADMIN_IDS:
         support_text += f"• [Администратор](tg://user?id={admin_id})\n"
     
-    await message.answer(support_text, parse_mode="Markdown", disable_web_page_preview=True)
+    await message.answer(support_text, parse_mode="None", disable_web_page_preview=True)
 
 @dp.message(Command("my_tickets"))
 async def cmd_my_tickets(message: types.Message):
@@ -537,7 +537,7 @@ async def cmd_my_tickets(message: types.Message):
         text += f"📊 *Статус:* {status}\n"
         text += "─" * 20 + "\n"
     
-    await message.answer(text, parse_mode="Markdown")
+    await message.answer(text, parse_mode="None")
 
 # === ЗАПУСК БОТА ===
 async def main():
